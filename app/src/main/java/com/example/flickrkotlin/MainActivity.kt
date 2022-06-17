@@ -2,10 +2,12 @@ package com.example.flickrkotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil.setContentView
+import com.example.flickrkotlin.databinding.ActivityMainBinding
+import com.longhb.base.ActivityNavigationBase
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity : ActivityNavigationBase<ActivityMainBinding>() {
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
     }
 }
