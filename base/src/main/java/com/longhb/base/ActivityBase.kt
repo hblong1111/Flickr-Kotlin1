@@ -15,6 +15,7 @@ abstract class ActivityBase<B : ViewDataBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.inflate(layoutInflater, getLayoutId(), null, false)
+        setContentView(binding.root)
 
         navigationViewModel = ViewModelProvider(this)[NavigationViewModel::class.java]
     }
