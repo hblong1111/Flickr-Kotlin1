@@ -1,5 +1,10 @@
 package com.example.api
 
-interface FlickrService {
+import retrofit2.Call
+import retrofit2.http.*
 
+
+interface FlickrService {
+    @GET("services/rest/")
+    fun getResult(@QueryMap options: Map<String, String>): Call<FlickrResult>
 }
