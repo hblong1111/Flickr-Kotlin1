@@ -36,7 +36,7 @@ class MainActivity : ActivityNavigationBase<ActivityMainBinding>(), Callback<Fli
     }
 
     private fun getListPhoto() {
-        FlickrRetrofit.flickrService.getResult(ConverterAPI.getOptionCallResult(1000, 1))
+        FlickrRetrofit.flickrService.getResult(ConverterAPI.getOptionCallResult(10, 1))
             .enqueue(this)
     }
 

@@ -29,6 +29,6 @@ abstract class FragmentBase<B : ViewDataBinding> : Fragment() {
 
 
     protected fun navigation(id: Int) {
-        navigationViewModel.setIdNavigation(id)
+        navigationViewModel.idNavigation.postValue(id)
     }
 }

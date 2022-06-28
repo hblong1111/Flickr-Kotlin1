@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentContainerView
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 
@@ -18,6 +19,10 @@ abstract class ActivityNavigationBase<B : ViewDataBinding> : ActivityBase<B>() {
         super.onCreate(savedInstanceState)
 
         createNavigation()
+
+        navigationViewModel.idNavigation.observe(this) {
+            navController.navigate(it)
+        }
     }
 
     private fun createNavigation() {

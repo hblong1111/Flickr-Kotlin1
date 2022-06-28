@@ -18,7 +18,7 @@ abstract class FragmentNavigationBase<B : ViewDataBinding> : FragmentBase<B>() {
         super.onViewCreated(view, savedInstanceState)
         createNavigation()
         if (navController != null) {
-            navigationViewModel.getIdNavigation().observe(
+            navigationViewModel.idNavigation.observe(
                 requireActivity()
             ) { id: Int? ->
                 try {

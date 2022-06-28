@@ -23,6 +23,6 @@ abstract class ActivityBase<B : ViewDataBinding> : AppCompatActivity() {
     protected abstract fun getLayoutId(): Int
 
     protected open fun navigation(id: Int) {
-        navigationViewModel.setIdNavigation(id)
+        navigationViewModel.idNavigation.postValue(id)
     }
 }
