@@ -28,12 +28,12 @@ class ExploreAdapter constructor(var callback: LoadMoreCallback) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(holder.binding.imageView).load(data[position].urlM).addListener(this)
-            .into(holder.binding.imageView)
-//        holder.bindData(photo = data[position])
-//        if (position == itemCount - 1) {
-//            callback.loadMore(itemCount)
-//        }
+//        Glide.with(holder.binding.imageView).load(data[position].urlM).addListener(this)
+//            .into(holder.binding.imageView)
+        holder.bindData(photo = data[position])
+        if (position == itemCount - 1) {
+            callback.loadMore(itemCount)
+        }
     }
 
     override fun getItemCount(): Int {

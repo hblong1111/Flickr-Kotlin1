@@ -42,9 +42,9 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(), LoadMoreCallback
         adapter = ExploreAdapter(this)
 
         binding.rcv.adapter = adapter
-//        binding.rcv.layoutManager =
-//            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-        binding.rcv.layoutManager = LinearLayoutManager(context)
+        binding.rcv.layoutManager =
+            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+//        binding.rcv.layoutManager = LinearLayoutManager(context)
 
 
         photoViewModel.photos.observe(requireActivity(), Observer {
@@ -64,11 +64,9 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(), LoadMoreCallback
 //            }
 //            adapter.setData(dataLoadMore)
 //        }
-        Log.d("longhb", "ExploreFragment.loadMore: $position")
         binding.rcv.post {
-            if (position + 1 < data.size) {
-                adapter.addItem(data[position + 1])
-
+            if (position  < data.size) {
+                adapter.addItem(data[position ])
             }
         }
     }

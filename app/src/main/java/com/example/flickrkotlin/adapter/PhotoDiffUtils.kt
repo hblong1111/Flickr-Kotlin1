@@ -26,6 +26,6 @@ class PhotoDiffUtils constructor(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldPhoto = oldData[oldItemPosition]
         val newPhoto = newData[newItemPosition]
-        return false
+        return true
     }
 }

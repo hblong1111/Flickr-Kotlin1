@@ -12,18 +12,20 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_margin="2dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="100dp">
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_marginVertical="4dp"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadUrl="@{photo.urlM}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
