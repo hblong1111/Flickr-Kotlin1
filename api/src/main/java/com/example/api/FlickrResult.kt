@@ -204,6 +204,14 @@ class FlickrResult {
             @SerializedName("width_o")
             @Expose
             var widthO: Int? = null
+
+
+            override fun equals(other: Any?): Boolean {
+                if (other is Photo) {
+                    return other.id.equals(id)
+                }
+                return false
+            }
         }
     }
 }
