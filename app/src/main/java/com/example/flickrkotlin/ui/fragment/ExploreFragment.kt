@@ -5,22 +5,17 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.api.FlickrResult
-import com.example.flickrkotlin.LoadMoreCallback
+import com.example.flickrkotlin.EndlessRecyclerViewScrollListener
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.ExploreAdapter
 import com.example.flickrkotlin.databinding.FragmentExploreBinding
-import com.example.flickrkotlin.layout_manager.MyLayoutManage
 import com.example.flickrkotlin.view_model.PhotoViewModel
 import com.longhb.base.FragmentBase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class ExploreFragment : FragmentBase<FragmentExploreBinding>(), LoadMoreCallback {
+class ExploreFragment : FragmentBase<FragmentExploreBinding>() {
     private lateinit var adapter: ExploreAdapter
     private lateinit var photoViewModel: PhotoViewModel
     private lateinit var data: ArrayList<FlickrResult.Photos.Photo>
@@ -39,36 +34,38 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(), LoadMoreCallback
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ExploreAdapter(this)
+        adapter = ExploreAdapter()
 
         binding.rcv.adapter = adapter
-        binding.rcv.layoutManager =
-            StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        val layoutManager =  StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+
+        binding.rcv.layoutManager = layoutManager
 //        binding.rcv.layoutManager = LinearLayoutManager(context)
+        binding.rcv.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                Log.d("longhb", "ExploreFragment.onLoadMore: $page | $totalItemsCount")
+
+
+                adapter.setData(ArrayList(data.take(adapter.itemCount+30)))
+                (mLayoutManager as StaggeredGridLayoutManager?)!!.invalidateSpanAssignments()
+
+            }
+        })
+
+        binding.rcv.addOnScrollListener(object  : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
 
 
         photoViewModel.photos.observe(requireActivity(), Observer {
             data.clear()
             data.addAll(it)
-            loadMore(0)
+            adapter.setData(ArrayList(data.take(adapter.itemCount+30)))
         })
     }
 
-    override fun loadMore(position: Int) {
-//        binding.rcv.post {
-//            val dataLoadMore = ArrayList<FlickrResult.Photos.Photo>()
-//            for (i in 0..30) {
-//                if (position + i < data.size) {
-//                    dataLoadMore.add(data[position + i])
-//                }
-//            }
-//            adapter.setData(dataLoadMore)
-//        }
-        binding.rcv.post {
-            if (position  < data.size) {
-                adapter.addItem(data[position ])
-            }
-        }
-    }
 
 }
