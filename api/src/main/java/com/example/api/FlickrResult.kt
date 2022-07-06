@@ -1,5 +1,6 @@
 package com.example.api
 
+import android.text.TextUtils
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -24,25 +25,25 @@ class FlickrResult {
 
         @SerializedName("next_prelude_interval")
         @Expose
-        var nextPreludeInterval: Int? = null
+        var nextPreludeInterval = 0
     }
 
     class Photos {
         @SerializedName("page")
         @Expose
-        var page: Int? = null
+        var page = 0
 
         @SerializedName("pages")
         @Expose
-        var pages: Int? = null
+        var pages = 0
 
         @SerializedName("perpage")
         @Expose
-        var perpage: Int? = null
+        var perpage = 0
 
         @SerializedName("total")
         @Expose
-        var total: Int? = null
+        var total = 0
 
         @SerializedName("photo")
         @Expose
@@ -67,7 +68,7 @@ class FlickrResult {
 
             @SerializedName("farm")
             @Expose
-            var farm: Int? = null
+            var farm = 0
 
             @SerializedName("title")
             @Expose
@@ -75,15 +76,15 @@ class FlickrResult {
 
             @SerializedName("ispublic")
             @Expose
-            var ispublic: Int? = null
+            var ispublic = 0
 
             @SerializedName("isfriend")
             @Expose
-            var isfriend: Int? = null
+            var isfriend = 0
 
             @SerializedName("isfamily")
             @Expose
-            var isfamily: Int? = null
+            var isfamily = 0
 
             @SerializedName("url_sq")
             @Expose
@@ -91,11 +92,11 @@ class FlickrResult {
 
             @SerializedName("height_sq")
             @Expose
-            var heightSq: Int? = null
+            var heightSq = 0
 
             @SerializedName("width_sq")
             @Expose
-            var widthSq: Int? = null
+            var widthSq = 0
 
             @SerializedName("url_t")
             @Expose
@@ -103,11 +104,11 @@ class FlickrResult {
 
             @SerializedName("height_t")
             @Expose
-            var heightT: Int? = null
+            var heightT = 0
 
             @SerializedName("width_t")
             @Expose
-            var widthT: Int? = null
+            var widthT = 0
 
             @SerializedName("url_s")
             @Expose
@@ -115,11 +116,11 @@ class FlickrResult {
 
             @SerializedName("height_s")
             @Expose
-            var heightS: Int? = null
+            var heightS = 0
 
             @SerializedName("width_s")
             @Expose
-            var widthS: Int? = null
+            var widthS = 0
 
             @SerializedName("url_q")
             @Expose
@@ -127,11 +128,11 @@ class FlickrResult {
 
             @SerializedName("height_q")
             @Expose
-            var heightQ: Int? = null
+            var heightQ = 0
 
             @SerializedName("width_q")
             @Expose
-            var widthQ: Int? = null
+            var widthQ = 0
 
             @SerializedName("url_m")
             @Expose
@@ -139,11 +140,11 @@ class FlickrResult {
 
             @SerializedName("height_m")
             @Expose
-            var heightM: Int? = null
+            var heightM: Int = 0
 
             @SerializedName("width_m")
             @Expose
-            var widthM: Int? = null
+            var widthM: Int = 0
 
             @SerializedName("url_n")
             @Expose
@@ -151,11 +152,11 @@ class FlickrResult {
 
             @SerializedName("height_n")
             @Expose
-            var heightN: Int? = null
+            var heightN = 0
 
             @SerializedName("width_n")
             @Expose
-            var widthN: Int? = null
+            var widthN = 0
 
             @SerializedName("url_z")
             @Expose
@@ -163,11 +164,11 @@ class FlickrResult {
 
             @SerializedName("height_z")
             @Expose
-            var heightZ: Int? = null
+            var heightZ = 0
 
             @SerializedName("width_z")
             @Expose
-            var widthZ: Int? = null
+            var widthZ = 0
 
             @SerializedName("url_c")
             @Expose
@@ -175,11 +176,11 @@ class FlickrResult {
 
             @SerializedName("height_c")
             @Expose
-            var heightC: Int? = null
+            var heightC = 0
 
             @SerializedName("width_c")
             @Expose
-            var widthC: Int? = null
+            var widthC = 0
 
             @SerializedName("url_l")
             @Expose
@@ -187,11 +188,11 @@ class FlickrResult {
 
             @SerializedName("height_l")
             @Expose
-            var heightL: Int? = null
+            var heightL = 0
 
             @SerializedName("width_l")
             @Expose
-            var widthL: Int? = null
+            var widthL = 0
 
             @SerializedName("url_o")
             @Expose
@@ -199,12 +200,73 @@ class FlickrResult {
 
             @SerializedName("height_o")
             @Expose
-            var heightO: Int? = null
+            var heightO = 0
 
             @SerializedName("width_o")
             @Expose
-            var widthO: Int? = null
+            var widthO = 0
 
+
+            fun getUrl(): String? {
+                val url = when {
+                    !TextUtils.isEmpty(urlM) -> urlM
+                    !TextUtils.isEmpty(urlO) -> urlO
+                    !TextUtils.isEmpty(urlL) -> urlL
+                    !TextUtils.isEmpty(urlC) -> urlC
+                    !TextUtils.isEmpty(urlZ) -> urlZ
+                    !TextUtils.isEmpty(urlN) -> urlN
+                    !TextUtils.isEmpty(urlQ) -> urlQ
+                    !TextUtils.isEmpty(urlS) -> urlS
+                    !TextUtils.isEmpty(urlSq) -> urlSq
+                    !TextUtils.isEmpty(urlT) -> urlT
+                    else -> {
+                        null
+                    }
+                }
+
+                return url
+            }
+
+            fun getHeight(): Int {
+
+
+                val height = when {
+                    !TextUtils.isEmpty(urlO) -> heightO
+                    !TextUtils.isEmpty(urlL) -> heightL
+                    !TextUtils.isEmpty(urlC) -> heightC
+                    !TextUtils.isEmpty(urlZ) -> heightZ
+                    !TextUtils.isEmpty(urlN) -> heightN
+                    !TextUtils.isEmpty(urlM) -> heightM
+                    !TextUtils.isEmpty(urlQ) -> heightQ
+                    !TextUtils.isEmpty(urlS) -> heightS
+                    !TextUtils.isEmpty(urlSq) -> heightSq
+                    !TextUtils.isEmpty(urlT) -> heightT
+                    else -> {
+                        1
+                    }
+                }
+                return height
+            }
+
+            fun getWidth(): Int {
+
+                val width = when {
+                    !TextUtils.isEmpty(urlO) -> widthO
+                    !TextUtils.isEmpty(urlL) -> widthL
+                    !TextUtils.isEmpty(urlC) -> widthC
+                    !TextUtils.isEmpty(urlZ) -> widthZ
+                    !TextUtils.isEmpty(urlN) -> widthN
+                    !TextUtils.isEmpty(urlM) -> widthM
+                    !TextUtils.isEmpty(urlQ) -> widthQ
+                    !TextUtils.isEmpty(urlS) -> widthS
+                    !TextUtils.isEmpty(urlSq) -> widthSq
+                    !TextUtils.isEmpty(urlT) -> widthT
+                    else -> {
+                        1
+                    }
+                }
+                return width
+            }
 
             override fun equals(other: Any?): Boolean {
                 if (other is Photo) {
@@ -212,6 +274,12 @@ class FlickrResult {
                 }
                 return false
             }
+
+            override fun toString(): String {
+                return "Photo(urlO=$urlO, url=${getUrl()})"
+            }
+
+
         }
     }
 }
