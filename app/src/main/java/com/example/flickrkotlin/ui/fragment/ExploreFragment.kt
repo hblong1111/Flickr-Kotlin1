@@ -3,6 +3,7 @@ package com.example.flickrkotlin.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.api.FlickrResult
@@ -34,8 +35,26 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
         binding.rcv.adapter = adapter
 
         photoViewModel.photosLiveData.observe(requireActivity(), Observer {
-            Log.d("longhb", "ExploreFragment.onViewCreated: ${it.size}")
             adapter.setDataNew(ArrayList(it))
+        })
+
+        photoViewModel.isLoadData.observe(requireActivity(), Observer {
+            if (binding.rcv.visibility == View.INVISIBLE) {
+
+                binding.groupLoading.visibility = if (it) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+                binding.rcv.visibility = if (!it) {
+                    View.VISIBLE
+                } else {
+                    View.INVISIBLE
+                }
+            } else {
+                Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
+            }
+
         })
     }
 

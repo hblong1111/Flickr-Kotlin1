@@ -23,14 +23,12 @@ class BlankFragment : FragmentBase<FragmentBlankBinding>(), CoroutineScope {
 
         launch {
             delay(3000)
-            Log.d("longhb", "BlankFragment.onViewCreated: okk123")
         }
 
     }
 
     private val handler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { coroutineContext, throwable ->
-            Log.d("longhb", "BlankFragment.${throwable.message}")
         }
 
     private lateinit var job: Job

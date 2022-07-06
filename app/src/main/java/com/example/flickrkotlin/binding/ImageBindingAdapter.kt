@@ -11,8 +11,6 @@ object ImageBindingAdapter {
     @BindingAdapter("app:loadUrl")
     @JvmStatic
     fun loadImageFromUrl(imageView: ImageView, url: String) {
-
-        Log.d("longhb", "ImageBindingAdapter.loadImageFromUrl: $imageView ||| $url")
         Glide.with(imageView).load(url).into(imageView)
     }
 }

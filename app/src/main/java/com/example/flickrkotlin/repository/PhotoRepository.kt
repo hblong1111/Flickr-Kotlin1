@@ -1,6 +1,5 @@
 package com.example.flickrkotlin.repository
 
-import androidx.compose.runtime.referentialEqualityPolicy
 import com.example.api.ConverterAPI
 import com.example.api.FlickrResult
 import com.example.api.FlickrRetrofit
@@ -8,18 +7,18 @@ import com.example.flickrkotlin.utils.DateUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.ceil
 
 object PhotoRepository {
-    private var totalPhoto = 0
-    private var totalPhotoOfPage = 500
+    private var totalPhotoOfPage = 500f
 
 
-    fun getPhotoExplore(callBack: GetPhotoExploreCallBack) {
+    fun getPhotoExplore(totalPhoto: Int, callBack: GetPhotoExploreCallBack) {
         FlickrRetrofit.flickrService.getResult(
             ConverterAPI.getOptionCallResult(
                 DateUtils.getDateString(
-                    totalPhoto / totalPhotoOfPage
-                ), totalPhotoOfPage, 1
+                    calculatorDayWithSize(totalPhoto)
+                ), totalPhotoOfPage.toInt(), 1
             )
         ).enqueue(object : Callback<FlickrResult> {
             override fun onResponse(
@@ -29,7 +28,6 @@ object PhotoRepository {
                 if (response.isSuccessful) {
                     val size = response.body()?.photos?.photo?.size
                     if (response.code() == 200 && size != null && size != 0) {
-                        totalPhoto += size
                         callBack.onSuccess(response.body()?.photos?.photo!!)
                     }
                 }
@@ -39,6 +37,10 @@ object PhotoRepository {
                 callBack.onFailure(call, t)
             }
         })
+    }
+
+    fun calculatorDayWithSize(totalPhoto: Int): Int {
+        return ceil(totalPhoto / totalPhotoOfPage).toInt()
     }
 
 
