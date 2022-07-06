@@ -15,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class MainActivity : ActivityNavigationBase<ActivityMainBinding>(), Callback<FlickrResult> {
+class MainActivity : ActivityNavigationBase<ActivityMainBinding>() {
     private lateinit var photoViewModel: PhotoViewModel
 
 
@@ -31,27 +31,7 @@ class MainActivity : ActivityNavigationBase<ActivityMainBinding>(), Callback<Fli
         }
         photoViewModel = ViewModelProvider(this).get(PhotoViewModel::class.java)
 
-        getListPhoto()
-
+        photoViewModel.getListPhoto()
     }
 
-    private fun getListPhoto() {
-        FlickrRetrofit.flickrService.getResult(ConverterAPI.getOptionCallResult(500, 2))
-            .enqueue(this)
-    }
-
-    override fun onResponse(call: Call<FlickrResult>, response: Response<FlickrResult>) {
-        val result: List<FlickrResult.Photos.Photo> =
-            when (response.isSuccessful) {
-                true -> response.body()?.photos?.photo!!
-                else -> listOf()
-            }
-        photoViewModel.photos.postValue(result)
-
-    }
-
-    override fun onFailure(call: Call<FlickrResult>, t: Throwable) {
-        binding.tvError.text = t.message
-        binding.tvError.visibility = View.VISIBLE
-    }
 }

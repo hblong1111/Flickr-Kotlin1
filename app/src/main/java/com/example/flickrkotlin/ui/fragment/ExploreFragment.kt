@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,15 +12,13 @@ import com.example.flickrkotlin.databinding.FragmentExploreBinding
 import com.example.flickrkotlin.view_model.PhotoViewModel
 import com.longhb.base.FragmentBase
 
-class ExploreFragment : FragmentBase<FragmentExploreBinding>() {
+class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
+    ExploreAdapter.ExploreAdapterCallback {
     private lateinit var photoViewModel: PhotoViewModel
-    private lateinit var data: ArrayList<FlickrResult.Photos.Photo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(requireActivity())[PhotoViewModel::class.java]
-        data = ArrayList()
-
     }
 
     override fun getLayoutId(): Int {
@@ -30,14 +29,18 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val adapter = ExploreAdapter()
+        val adapter = ExploreAdapter(this)
 
         binding.rcv.adapter = adapter
 
-        photoViewModel.photos.observe(requireActivity(), Observer {
-            data.addAll(it)
-            adapter.setData(ArrayList(data))
+        photoViewModel.photosLiveData.observe(requireActivity(), Observer {
+            Log.d("longhb", "ExploreFragment.onViewCreated: ${it.size}")
+            adapter.setDataNew(ArrayList(it))
         })
+    }
+
+    override fun loadComplete() {
+        photoViewModel.getListPhoto()
     }
 
 

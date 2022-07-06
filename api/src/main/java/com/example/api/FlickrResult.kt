@@ -47,7 +47,7 @@ class FlickrResult {
 
         @SerializedName("photo")
         @Expose
-        var photo: List<Photo>? = null
+        var photo: ArrayList<Photo>? = null
 
         class Photo {
             @SerializedName("id")
