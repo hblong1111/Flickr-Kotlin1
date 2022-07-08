@@ -24,9 +24,6 @@ class MainActivity : ActivityNavigationBase<ActivityMainBinding>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-
         super.onCreate(savedInstanceState)
 
         binding.tvError.setOnClickListener {
