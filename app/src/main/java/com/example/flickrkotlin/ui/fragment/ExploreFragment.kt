@@ -1,12 +1,10 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.api.FlickrResult
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.ExploreAdapter
 import com.example.flickrkotlin.databinding.FragmentExploreBinding
@@ -60,6 +58,16 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
 
     override fun loadComplete() {
         photoViewModel.getListPhoto()
+    }
+
+    override fun onClickItem(view: View, position: Int) {
+
+        photoViewModel.positionSelect = position
+
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(R.id.containerFRMain, ImageDetailFragment())
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
 

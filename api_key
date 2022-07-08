@@ -6,10 +6,26 @@ fc33df1379320c84
 
 https://www.flickr.com/services/rest/
 ?method=flickr.interestingness.getList
+               &api_key=0bc8fffdaa47544a2b609502c1fb25ce
+               &date=2022-06-29
+               &extras=url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o
+               &per_page=1
+               &page=5
+               &format=json
+               &nojsoncallback=1
+
+
+
+
+//search
+
+
+https://www.flickr.com/services/rest/
+?method=flickr.photos.search
 &api_key=0bc8fffdaa47544a2b609502c1fb25ce
-&date=2022-06-29
-&extras=url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o
-&per_page=1
-&page=5
+&text=dog
+&sort=relevance
+&content_type=1
+&extras=url_sqC,url_tC,url_sC,url_qC,url_mC,url_nC,url_zC,url_cC,url_lC,url_o
 &format=json
 &nojsoncallback=1

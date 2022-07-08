@@ -209,16 +209,33 @@ class FlickrResult {
 
             fun getUrl(): String? {
                 val url = when {
+                    !TextUtils.isEmpty(urlS) -> urlS
+                    !TextUtils.isEmpty(urlQ) -> urlQ
                     !TextUtils.isEmpty(urlM) -> urlM
+                    !TextUtils.isEmpty(urlT) -> urlT
+                    !TextUtils.isEmpty(urlN) -> urlN
+                    !TextUtils.isEmpty(urlZ) -> urlZ
+                    !TextUtils.isEmpty(urlC) -> urlC
+                    !TextUtils.isEmpty(urlL) -> urlL
+                    !TextUtils.isEmpty(urlO) -> urlO
+                    else -> {
+                        null
+                    }
+                }
+
+                return url
+            }
+            fun getUrlHD(): String? {
+                val url = when {
                     !TextUtils.isEmpty(urlO) -> urlO
                     !TextUtils.isEmpty(urlL) -> urlL
                     !TextUtils.isEmpty(urlC) -> urlC
                     !TextUtils.isEmpty(urlZ) -> urlZ
                     !TextUtils.isEmpty(urlN) -> urlN
+                    !TextUtils.isEmpty(urlT) -> urlT
+                    !TextUtils.isEmpty(urlM) -> urlM
                     !TextUtils.isEmpty(urlQ) -> urlQ
                     !TextUtils.isEmpty(urlS) -> urlS
-                    !TextUtils.isEmpty(urlSq) -> urlSq
-                    !TextUtils.isEmpty(urlT) -> urlT
                     else -> {
                         null
                     }

@@ -13,6 +13,8 @@ class PhotoViewModel : ViewModel() {
     val isLoadData: MutableLiveData<Boolean> = MutableLiveData()
     val photos: ArrayList<FlickrResult.Photos.Photo> = ArrayList()
 
+    var positionSelect = 0
+
     fun getListPhoto() {
         isLoadData.postValue(true)
         PhotoRepository.getPhotoExplore(photos.size,

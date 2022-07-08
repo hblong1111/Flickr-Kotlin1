@@ -3,7 +3,6 @@ package com.example.flickrkotlin.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
-import androidx.core.content.ContextCompat.getSystemService
 
 class InternetUtils {
 

@@ -1,19 +1,20 @@
 package com.example.flickrkotlin.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.api.FlickrResult
 import com.example.flickrkotlin.databinding.ItemExploreBinding
 import com.longhb.base.adapter.AdapterRecyclerViewBase
 
 class ExploreAdapter(var callback: ExploreAdapterCallback) :
     AdapterRecyclerViewBase<FlickrResult.Photos.Photo, ExploreAdapter.ViewHolder>() {
+
 
     override var layoutManager: RecyclerView.LayoutManager =
         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -32,6 +33,7 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
             val heightDraw = width * photo.getHeight() / photo.getWidth()
             holder.binding.imageView.layoutParams.height = heightDraw
             Glide.with(holder.binding.imageView).load(photo.getUrl())
+                .diskCacheStrategy(DiskCacheStrategy.DATA)
                 .into(holder.binding.imageView)
         } else {
             holder.binding.imageView.post(kotlinx.coroutines.Runnable {
@@ -39,10 +41,15 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
                 val heightDraw = width * photo.getHeight() / photo.getWidth()
                 holder.binding.imageView.layoutParams.height = heightDraw
                 Glide.with(holder.binding.imageView).load(photo.getUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(holder.binding.imageView)
             })
         }
 
+
+        holder.binding.imageView.setOnClickListener {
+            callback.onClickItem(it, holder.adapterPosition)
+        }
 
     }
 
@@ -75,6 +82,7 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
 
     interface ExploreAdapterCallback {
         fun loadComplete()
+        fun onClickItem(view: View, position: Int)
     }
 
 
