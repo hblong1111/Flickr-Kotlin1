@@ -51,7 +51,7 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
                 } else {
                     View.INVISIBLE
                 }
-            } else {
+            } else if (it) {
                 Toast.makeText(requireActivity(), "Loading ...", Toast.LENGTH_SHORT).show()
             }
 

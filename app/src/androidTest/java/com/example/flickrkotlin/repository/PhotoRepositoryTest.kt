@@ -1,5 +1,6 @@
 package com.example.flickrkotlin.repository
 
+import com.example.flickrkotlin.utils.DateUtils
 import org.junit.Assert.*
 
 import org.junit.Test
@@ -13,6 +14,7 @@ class PhotoRepositoryTest {
 
     @Test
     fun calculatorDayWithSize1() {
-        assertEquals(PhotoRepository.calculatorDayWithSize(998), 1)
+        assertEquals(PhotoRepository.calculatorDayWithSize(500), 1)
+        assertEquals(DateUtils.getDateString(PhotoRepository.calculatorDayWithSize(501)), "0")
     }
 }

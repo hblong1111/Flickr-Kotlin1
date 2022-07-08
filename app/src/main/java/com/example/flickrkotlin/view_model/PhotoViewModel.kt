@@ -19,9 +19,9 @@ class PhotoViewModel : ViewModel() {
             object : PhotoRepository.GetPhotoExploreCallBack {
                 override fun onSuccess(data: ArrayList<FlickrResult.Photos.Photo>) {
                     photos.addAll(data)
+                    Log.d("longhb", "PhotoViewModel.onSuccess: ${photos.size}")
                     photosLiveData.postValue(photos)
                     isLoadData.postValue(false)
-
                 }
 
                 override fun onFailure(call: Call<FlickrResult>, t: Throwable) {

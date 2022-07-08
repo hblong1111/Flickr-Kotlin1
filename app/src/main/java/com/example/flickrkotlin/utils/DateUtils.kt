@@ -8,7 +8,7 @@ object DateUtils {
     fun getDateString(day: Int = 0): String {
         val result: String
         val format = SimpleDateFormat("yyyy-MM-dd")
-        val time = System.currentTimeMillis() - (day + 1) * 24 * 60 * 60 * 1000
+        val time = System.currentTimeMillis() - (day) * 24 * 60 * 60 * 1000
         result = format.format(time)
         return result
     }
