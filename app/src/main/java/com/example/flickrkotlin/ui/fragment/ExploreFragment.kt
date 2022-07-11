@@ -1,7 +1,6 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
