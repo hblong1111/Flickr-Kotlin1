@@ -2,7 +2,6 @@ package com.longhb.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.collections.ArrayList
 
 abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
     RecyclerView.Adapter<VH>() {
@@ -30,7 +29,7 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
 
     private fun setDataShowNew(newData: ArrayList<T>) {
-        var diffUtil: DiffUtil.DiffResult =
+        val diffUtil: DiffUtil.DiffResult =
             DiffUtil.calculateDiff(DiffCallbackBase(dataShow, newData))
         diffUtil.dispatchUpdatesTo(this)
         dataShow.clear()
@@ -78,6 +77,29 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
     }
 
+
+    fun showDataToPosition(position: Int) {
+        if (position >= 0 && position < data.size) {
+            setDataShowNew(ArrayList(data.take(position + 1)))
+
+//            scrollToPosition(position)
+        }
+    }
+
+
+    private fun scrollToPosition(position: Int) {
+        recyclerView.postDelayed(kotlinx.coroutines.Runnable {
+            if (position < itemCount) {
+
+                layoutManager.scrollToPosition(position)
+                recyclerView.postDelayed(kotlinx.coroutines.Runnable {
+                }, 0)
+
+            } else {
+                scrollToPosition(position)
+            }
+        }, 500)
+    }
 
     override fun getItemCount(): Int {
         return dataShow.size

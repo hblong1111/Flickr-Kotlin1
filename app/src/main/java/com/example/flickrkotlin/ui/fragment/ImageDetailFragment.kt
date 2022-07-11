@@ -31,14 +31,17 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewpager.adapter = adapter
-        binding.viewpager.setCurrentItem(photoViewModel.positionSelect, false)
-
 
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                photoViewModel.positionSelect = position
+                if (position != photoViewModel.positionSelect) {
+                    photoViewModel.positionSelect = position
+                }
+                photoViewModel.positionFocus.postValue(position)
             }
         })
+        binding.viewpager.setCurrentItem(photoViewModel.positionSelect, false)
+
     }
 }

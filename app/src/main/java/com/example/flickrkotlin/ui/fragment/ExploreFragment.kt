@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -15,9 +16,29 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
     ExploreAdapter.ExploreAdapterCallback {
     private lateinit var photoViewModel: PhotoViewModel
 
+    private lateinit var adapter: ExploreAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(requireActivity())[PhotoViewModel::class.java]
+        adapter = ExploreAdapter(this)
+
+        photoViewModel.photosLiveData.observe(requireActivity(), Observer {
+            adapter.setDataNew(ArrayList(it))
+        })
+
+
+
+        photoViewModel.positionFocus.observe(requireActivity(), Observer {
+            if (it >= 0) {
+                if (it < adapter.itemCount) {
+                    adapter.layoutManager.scrollToPosition(it)
+                } else {
+                    adapter.showDataToPosition(it)
+                }
+            }
+        })
+
     }
 
     override fun getLayoutId(): Int {
@@ -28,13 +49,8 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
         super.onViewCreated(view, savedInstanceState)
 
 
-        val adapter = ExploreAdapter(this)
 
         binding.rcv.adapter = adapter
-
-        photoViewModel.photosLiveData.observe(requireActivity(), Observer {
-            adapter.setDataNew(ArrayList(it))
-        })
 
         photoViewModel.isLoadData.observe(requireActivity(), Observer {
             if (binding.rcv.visibility == View.INVISIBLE) {
