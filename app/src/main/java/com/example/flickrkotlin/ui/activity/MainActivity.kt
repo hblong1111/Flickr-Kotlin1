@@ -20,8 +20,9 @@ class MainActivity : ActivityNavigationBase<ActivityMainBinding>() {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(this)[PhotoViewModel::class.java]
 
-        photoViewModel.getListPhoto()
-
+        if (photoViewModel.photos.isEmpty()) {
+            photoViewModel.getListPhoto()
+        }
 
     }
 

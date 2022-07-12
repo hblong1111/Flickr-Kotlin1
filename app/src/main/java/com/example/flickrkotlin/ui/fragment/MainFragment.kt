@@ -2,14 +2,16 @@ package com.example.flickrkotlin.ui.fragment
 
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.ViewPagerMainAdapter
 import com.example.flickrkotlin.databinding.FragmentMainBinding
 import com.google.android.material.navigation.NavigationBarView
 import com.longhb.base.FragmentBase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 class MainFragment : FragmentBase<FragmentMainBinding>(), NavigationBarView.OnItemSelectedListener {
@@ -40,6 +42,13 @@ class MainFragment : FragmentBase<FragmentMainBinding>(), NavigationBarView.OnIt
             }
         }
         return true
+    }
+
+    override fun onCustomCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) {
     }
 
 }

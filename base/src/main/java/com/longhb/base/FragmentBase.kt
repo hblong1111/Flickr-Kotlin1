@@ -22,8 +22,17 @@ abstract class FragmentBase<B : ViewDataBinding> : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
         navigationViewModel = ViewModelProvider(requireActivity())[NavigationViewModel::class.java]
+
+        onCustomCreateView(inflater, container, savedInstanceState)
+
         return binding.root
     }
+
+    abstract fun onCustomCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    )
 
     protected abstract fun getLayoutId(): Int
 

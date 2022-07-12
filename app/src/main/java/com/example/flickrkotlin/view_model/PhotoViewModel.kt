@@ -3,6 +3,7 @@ package com.example.flickrkotlin.view_model
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.api.FlickrResult
+import com.example.flickrkotlin.adapter.ExploreAdapter
 import com.example.flickrkotlin.repository.PhotoRepository
 import retrofit2.Call
 
@@ -12,6 +13,19 @@ class PhotoViewModel : ViewModel() {
     val isLoadData: MutableLiveData<Boolean> = MutableLiveData()
     val positionFocus: MutableLiveData<Int> = MutableLiveData()
     val photos: ArrayList<FlickrResult.Photos.Photo> = ArrayList()
+
+
+    private var exploreAdapter: ExploreAdapter? = null
+
+
+    fun getExploreAdapter(callback: ExploreAdapter.ExploreAdapterCallback): ExploreAdapter {
+        if (exploreAdapter == null) {
+            exploreAdapter = ExploreAdapter(callback)
+        } else {
+            exploreAdapter?.callback = callback
+        }
+        return exploreAdapter!!
+    }
 
     var positionSelect = 0
 

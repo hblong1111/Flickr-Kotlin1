@@ -1,7 +1,9 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,36 +22,45 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(requireActivity())[PhotoViewModel::class.java]
-        adapter = ExploreAdapter(this)
+        adapter = photoViewModel.getExploreAdapter(this)
 
         photoViewModel.photosLiveData.observe(requireActivity(), Observer {
             adapter.setDataNew(ArrayList(it))
         })
-
-
-
-        photoViewModel.positionFocus.observe(requireActivity(), Observer {
-            if (it >= 0) {
-                if (it < adapter.itemCount) {
-                    adapter.layoutManager.scrollToPosition(it)
-                } else {
-                    adapter.showDataToPosition(it)
-                }
-            }
-        })
-
     }
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_explore
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
+    override fun loadComplete() {
+        photoViewModel.getListPhoto()
+    }
+
+    override fun onClickItem(view: View, position: Int) {
+        photoViewModel.positionSelect = position
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.add(R.id.containerFRMain, ImageDetailFragment())
+            ?.addToBackStack(null)
+            ?.commit()
+    }
+
+    override fun onCustomCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) {
 
 
         binding.rcv.adapter = adapter
+
+
+//        photoViewModel.positionFocus.observe(requireActivity(), Observer {
+//            if (it >= 0) {
+//                binding.rcv.scrollToPosition(it)
+//            }
+//        })
 
         photoViewModel.isLoadData.observe(requireActivity(), Observer {
             if (binding.rcv.visibility == View.INVISIBLE) {
@@ -69,21 +80,12 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
             }
 
         })
+
     }
 
-    override fun loadComplete() {
-        photoViewModel.getListPhoto()
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("long", binding.rcv.layoutManager?.onSaveInstanceState())
     }
-
-    override fun onClickItem(view: View, position: Int) {
-
-        photoViewModel.positionSelect = position
-
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.add(R.id.containerFRMain, ImageDetailFragment())
-            ?.addToBackStack(null)
-            ?.commit()
-    }
-
 
 }

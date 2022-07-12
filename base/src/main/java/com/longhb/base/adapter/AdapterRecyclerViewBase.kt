@@ -1,20 +1,60 @@
 package com.longhb.base.adapter
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
 abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
     RecyclerView.Adapter<VH>() {
 
+    private val actionScrollToPosition: Runnable = kotlinx.coroutines.Runnable {
+        Log.d("hblong", "AdapterRecyclerViewBase.: $positionLastVisible")
+        recyclerView.scrollToPosition(positionLastVisible)
+    }
     open lateinit var recyclerView: RecyclerView
     abstract var layoutManager: RecyclerView.LayoutManager
 
     open var data: ArrayList<T> = ArrayList()
     open var dataShow: ArrayList<T> = ArrayList()
 
+
+    var positionLastVisible = 0
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
+
+        layoutManager.
+
         recyclerView.layoutManager = layoutManager
+
+        addScrollGetLastVisiblePosition(recyclerView)
+        super.onAttachedToRecyclerView(recyclerView)
+
+
+    }
+
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        layoutManager.detachAndScrapAttachedViews(recyclerView.Recycler())
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
+    private fun addScrollGetLastVisiblePosition(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == 0) {
+                    val lastCompleteVisiblePositions =
+                        (layoutManager as StaggeredGridLayoutManager).findLastCompletelyVisibleItemPositions(
+                            null
+                        )
+                    positionLastVisible = lastCompleteVisiblePositions.maxOrNull()!!
+
+                }
+            }
+        }
+        )
         recyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (dataShow.size < data.size) {
@@ -24,7 +64,23 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
                 }
             }
         })
-        super.onAttachedToRecyclerView(recyclerView)
+//        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                recyclerView.removeCallbacks(actionScrollToPosition)
+//                recyclerView.postDelayed(actionScrollToPosition, 500)
+//
+//                recyclerView.postDelayed(kotlinx.coroutines.Runnable {
+//                    Log.d("hblong", "AdapterRecyclerViewBase.onScrolled: remove")
+//                    recyclerView.removeOnScrollListener(
+//                        this
+//                    )
+//                }, 1000)
+//            }
+//
+//        }
+//        )
     }
 
 
@@ -32,6 +88,7 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
         val diffUtil: DiffUtil.DiffResult =
             DiffUtil.calculateDiff(DiffCallbackBase(dataShow, newData))
         diffUtil.dispatchUpdatesTo(this)
+
         dataShow.clear()
         dataShow.addAll(newData)
 
@@ -75,30 +132,6 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
         this.data.addAll(data)
         setDataShowNew(ArrayList(data.take(itemCount + 1)))
 
-    }
-
-
-    fun showDataToPosition(position: Int) {
-        if (position >= 0 && position < data.size) {
-            setDataShowNew(ArrayList(data.take(position + 1)))
-
-//            scrollToPosition(position)
-        }
-    }
-
-
-    private fun scrollToPosition(position: Int) {
-        recyclerView.postDelayed(kotlinx.coroutines.Runnable {
-            if (position < itemCount) {
-
-                layoutManager.scrollToPosition(position)
-                recyclerView.postDelayed(kotlinx.coroutines.Runnable {
-                }, 0)
-
-            } else {
-                scrollToPosition(position)
-            }
-        }, 500)
     }
 
     override fun getItemCount(): Int {

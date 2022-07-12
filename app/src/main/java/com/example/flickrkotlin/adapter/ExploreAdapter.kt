@@ -18,8 +18,12 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
 
     override var layoutManager: RecyclerView.LayoutManager =
         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
     private var width = 0
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        width = 0
+        super.onAttachedToRecyclerView(recyclerView)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemExploreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
