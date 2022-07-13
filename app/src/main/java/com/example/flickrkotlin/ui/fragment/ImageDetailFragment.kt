@@ -45,4 +45,10 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
 
     }
 
+    override fun onStop() {
+        photoViewModel.positionFocus.postValue(-1)
+        super.onStop()
+
+    }
+
 }

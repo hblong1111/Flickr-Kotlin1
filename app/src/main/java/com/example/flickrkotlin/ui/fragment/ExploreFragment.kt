@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,11 +57,13 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
         binding.rcv.adapter = adapter
 
 
-//        photoViewModel.positionFocus.observe(requireActivity(), Observer {
-//            if (it >= 0) {
-//                binding.rcv.scrollToPosition(it)
-//            }
-//        })
+        photoViewModel.positionFocus.observe(requireActivity(), Observer {
+            if (it >= 0) {
+                Log.d("hblong", "ExploreFragment.onCustomCreateView: $it")
+                adapter.positionLastVisible = it
+                binding.rcv.scrollToPosition(it)
+            }
+        })
 
         photoViewModel.isLoadData.observe(requireActivity(), Observer {
             if (binding.rcv.visibility == View.INVISIBLE) {
@@ -81,11 +84,6 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
 
         })
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("long", binding.rcv.layoutManager?.onSaveInstanceState())
     }
 
 }

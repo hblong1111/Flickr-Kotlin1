@@ -56,6 +56,7 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
+                Log.d("hblong", "AdapterRecyclerViewBase.onScrollStateChanged: ")
                 if (newState == 0) {
                     val lastCompleteVisiblePositions =
                         (layoutManager as StaggeredGridLayoutManager).findLastCompletelyVisibleItemPositions(
