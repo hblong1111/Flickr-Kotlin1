@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.api.FlickrResult
 import com.example.flickrkotlin.databinding.ItemDetailBinding
 
-class DetailAdapter(val data: ArrayList<FlickrResult.Photos.Photo>) :
+class DetailAdapter(val data: ArrayList<FlickrResult.Photos.Photo>, var callback: Callback) :
     RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
 
@@ -32,9 +32,23 @@ class DetailAdapter(val data: ArrayList<FlickrResult.Photos.Photo>) :
             .into(holder.binding.imv)
 
 
+        holder.binding.imv.setOnOutsidePhotoTapListener {
+            callback.onTapPhoto()
+        }
+
+        holder.binding.imv.setOnPhotoTapListener { view, x, y ->
+            callback.onTapPhoto()
+        }
+
+
     }
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+
+    interface Callback {
+        fun onTapPhoto()
     }
 }

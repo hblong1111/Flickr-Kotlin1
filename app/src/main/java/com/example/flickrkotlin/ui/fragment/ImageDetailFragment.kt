@@ -1,5 +1,6 @@
 package com.example.flickrkotlin.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +11,7 @@ import com.example.flickrkotlin.databinding.FragmentImageDetailBinding
 import com.example.flickrkotlin.view_model.PhotoViewModel
 import com.longhb.base.FragmentBase
 
-class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
+class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAdapter.Callback {
 
     private lateinit var photoViewModel: PhotoViewModel
 
@@ -19,7 +20,7 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(requireActivity())[PhotoViewModel::class.java]
-        adapter = DetailAdapter(photoViewModel.photos)
+        adapter = DetailAdapter(photoViewModel.photos,this)
     }
 
     override fun getLayoutId(): Int {
@@ -27,6 +28,7 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,12 +45,22 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
         })
         binding.viewpager.setCurrentItem(photoViewModel.positionSelect, false)
 
+
     }
 
     override fun onStop() {
         photoViewModel.positionFocus.postValue(-1)
         super.onStop()
 
+    }
+
+    override fun onTapPhoto() {
+        val visibleInfo = if (binding.infoGroup.visibility == View.VISIBLE) {
+            View.INVISIBLE
+        } else {
+            View.VISIBLE
+        }
+        binding.infoGroup.visibility = visibleInfo
     }
 
 }
