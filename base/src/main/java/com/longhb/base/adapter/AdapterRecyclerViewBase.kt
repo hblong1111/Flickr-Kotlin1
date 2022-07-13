@@ -9,7 +9,6 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
     RecyclerView.Adapter<VH>() {
 
     private val actionScrollToPosition: Runnable = kotlinx.coroutines.Runnable {
-        Log.d("hblong", "AdapterRecyclerViewBase.: $positionLastVisible")
         firstScroll = false
         recyclerView.scrollToPosition(positionLastVisible)
     }
@@ -56,7 +55,6 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                Log.d("hblong", "AdapterRecyclerViewBase.onScrollStateChanged: ")
                 if (newState == 0) {
                     val lastCompleteVisiblePositions =
                         (layoutManager as StaggeredGridLayoutManager).findLastCompletelyVisibleItemPositions(
@@ -85,7 +83,6 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 //                recyclerView.postDelayed(actionScrollToPosition, 500)
 //
 //                recyclerView.postDelayed(kotlinx.coroutines.Runnable {
-//                    Log.d("hblong", "AdapterRecyclerViewBase.onScrolled: remove")
 //                    recyclerView.removeOnScrollListener(
 //                        this
 //                    )

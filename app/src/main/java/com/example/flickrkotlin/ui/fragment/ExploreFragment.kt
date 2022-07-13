@@ -59,7 +59,6 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
 
         photoViewModel.positionFocus.observe(requireActivity(), Observer {
             if (it >= 0) {
-                Log.d("hblong", "ExploreFragment.onCustomCreateView: $it")
                 adapter.positionLastVisible = it
                 binding.rcv.scrollToPosition(it)
             }
