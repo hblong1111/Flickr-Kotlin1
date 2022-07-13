@@ -1,9 +1,7 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flickrkotlin.R
@@ -47,11 +45,4 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>() {
 
     }
 
-    override fun onCustomCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) {
-        TODO("Not yet implemented")
-    }
 }

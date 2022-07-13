@@ -28,11 +28,13 @@ abstract class FragmentBase<B : ViewDataBinding> : Fragment() {
         return binding.root
     }
 
-    abstract fun onCustomCreateView(
+   open fun onCustomCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    )
+    ) {
+
+    }
 
     protected abstract fun getLayoutId(): Int
 

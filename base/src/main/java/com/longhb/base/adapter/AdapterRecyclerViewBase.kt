@@ -10,10 +10,11 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
     private val actionScrollToPosition: Runnable = kotlinx.coroutines.Runnable {
         Log.d("hblong", "AdapterRecyclerViewBase.: $positionLastVisible")
+        firstScroll = false
         recyclerView.scrollToPosition(positionLastVisible)
     }
     open lateinit var recyclerView: RecyclerView
-    abstract var layoutManager: RecyclerView.LayoutManager
+    lateinit var layoutManager: RecyclerView.LayoutManager
 
     open var data: ArrayList<T> = ArrayList()
     open var dataShow: ArrayList<T> = ArrayList()
@@ -21,19 +22,30 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
     var positionLastVisible = 0
 
+    var firstScroll: Boolean = true
+
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         this.recyclerView = recyclerView
 
-        layoutManager.
+        firstScroll = true
+
+        layoutManager = createLayoutManager()
 
         recyclerView.layoutManager = layoutManager
 
         addScrollGetLastVisiblePosition(recyclerView)
         super.onAttachedToRecyclerView(recyclerView)
 
-
     }
 
+
+    override fun onViewAttachedToWindow(holder: VH) {
+        super.onViewAttachedToWindow(holder)
+        if (firstScroll) {
+            recyclerView.removeCallbacks(actionScrollToPosition)
+            recyclerView.postDelayed(actionScrollToPosition, 1500)
+        }
+    }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         layoutManager.detachAndScrapAttachedViews(recyclerView.Recycler())
@@ -93,6 +105,8 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
         dataShow.addAll(newData)
 
     }
+
+    abstract fun createLayoutManager(): RecyclerView.LayoutManager
 
 
     abstract fun loadComplete()

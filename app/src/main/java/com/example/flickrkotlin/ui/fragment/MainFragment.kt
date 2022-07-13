@@ -2,10 +2,8 @@ package com.example.flickrkotlin.ui.fragment
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.ViewPagerMainAdapter
 import com.example.flickrkotlin.databinding.FragmentMainBinding
@@ -44,12 +42,6 @@ class MainFragment : FragmentBase<FragmentMainBinding>(), NavigationBarView.OnIt
         return true
     }
 
-    override fun onCustomCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) {
-    }
 
 }
 

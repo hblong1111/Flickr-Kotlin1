@@ -15,9 +15,6 @@ import com.longhb.base.adapter.AdapterRecyclerViewBase
 class ExploreAdapter(var callback: ExploreAdapterCallback) :
     AdapterRecyclerViewBase<FlickrResult.Photos.Photo, ExploreAdapter.ViewHolder>() {
 
-
-    override var layoutManager: RecyclerView.LayoutManager =
-        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     private var width = 0
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -87,6 +84,10 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
     interface ExploreAdapterCallback {
         fun loadComplete()
         fun onClickItem(view: View, position: Int)
+    }
+
+    override fun createLayoutManager(): RecyclerView.LayoutManager {
+        return StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     }
 
 
