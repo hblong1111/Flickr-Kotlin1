@@ -2,7 +2,7 @@ package com.example.flickrkotlin.view_model
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.api.FlickrResult
+import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.adapter.ExploreAdapter
 import com.example.flickrkotlin.repository.PhotoRepository
 import retrofit2.Call

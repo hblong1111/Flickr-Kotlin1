@@ -1,8 +1,7 @@
 package com.example.flickrkotlin.adapter
 
-import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
-import com.example.api.FlickrResult
+import com.example.api.model.FlickrResult
 
 class PhotoDiffUtils constructor(
     var oldData: ArrayList<FlickrResult.Photos.Photo>,

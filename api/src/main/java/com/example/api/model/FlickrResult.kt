@@ -1,4 +1,4 @@
-package com.example.api
+package com.example.api.model
 
 import android.text.TextUtils
 import com.google.gson.annotations.Expose
@@ -10,40 +10,8 @@ class FlickrResult {
     @Expose
     var photos: Photos? = null
 
-    @SerializedName("extra")
-    @Expose
-    var extra: Extra? = null
-
-    @SerializedName("stat")
-    @Expose
-    var stat: String? = null
-
-    class Extra {
-        @SerializedName("explore_date")
-        @Expose
-        var exploreDate: String? = null
-
-        @SerializedName("next_prelude_interval")
-        @Expose
-        var nextPreludeInterval = 0
-    }
 
     class Photos {
-        @SerializedName("page")
-        @Expose
-        var page = 0
-
-        @SerializedName("pages")
-        @Expose
-        var pages = 0
-
-        @SerializedName("perpage")
-        @Expose
-        var perpage = 0
-
-        @SerializedName("total")
-        @Expose
-        var total = 0
 
         @SerializedName("photo")
         @Expose
@@ -54,37 +22,11 @@ class FlickrResult {
             @Expose
             var id: String? = null
 
-            @SerializedName("owner")
-            @Expose
-            var owner: String? = null
-
-            @SerializedName("secret")
-            @Expose
-            var secret: String? = null
-
-            @SerializedName("server")
-            @Expose
-            var server: String? = null
-
-            @SerializedName("farm")
-            @Expose
-            var farm = 0
 
             @SerializedName("title")
             @Expose
             var title: String? = null
 
-            @SerializedName("ispublic")
-            @Expose
-            var ispublic = 0
-
-            @SerializedName("isfriend")
-            @Expose
-            var isfriend = 0
-
-            @SerializedName("isfamily")
-            @Expose
-            var isfamily = 0
 
             @SerializedName("url_sq")
             @Expose
@@ -206,6 +148,19 @@ class FlickrResult {
             @Expose
             var widthO = 0
 
+            var views = 0
+
+            var comments = 0
+
+            var favorites = 0
+
+
+            var description:String?=null
+
+            var username:String?=null
+
+            var date:String?=null
+
 
             fun getUrl(): String? {
                 val url = when {
@@ -225,6 +180,7 @@ class FlickrResult {
 
                 return url
             }
+
             fun getUrlHD(): String? {
                 val url = when {
                     !TextUtils.isEmpty(urlO) -> urlO

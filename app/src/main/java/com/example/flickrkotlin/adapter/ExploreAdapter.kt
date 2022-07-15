@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.api.FlickrResult
+import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.databinding.ItemExploreBinding
 import com.longhb.base.adapter.AdapterRecyclerViewBase
 

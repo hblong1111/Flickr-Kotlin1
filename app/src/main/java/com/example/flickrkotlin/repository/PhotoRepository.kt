@@ -2,8 +2,8 @@ package com.example.flickrkotlin.repository
 
 import android.util.Log
 import com.example.api.ConverterAPI
-import com.example.api.FlickrResult
 import com.example.api.FlickrRetrofit
+import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.utils.DateUtils
 import retrofit2.Call
 import retrofit2.Callback

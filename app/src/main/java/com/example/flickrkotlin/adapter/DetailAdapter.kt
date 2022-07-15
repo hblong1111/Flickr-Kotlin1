@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.api.FlickrResult
+import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.databinding.ItemDetailBinding
 
 class DetailAdapter(val data: ArrayList<FlickrResult.Photos.Photo>, var callback: Callback) :

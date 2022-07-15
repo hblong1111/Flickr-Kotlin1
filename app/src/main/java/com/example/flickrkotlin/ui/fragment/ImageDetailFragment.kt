@@ -2,14 +2,25 @@ package com.example.flickrkotlin.ui.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Html
+import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.api.ConverterAPI
+import com.example.api.FlickrRetrofit
+import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.DetailAdapter
 import com.example.flickrkotlin.databinding.FragmentImageDetailBinding
 import com.example.flickrkotlin.view_model.PhotoViewModel
 import com.longhb.base.FragmentBase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAdapter.Callback {
 
@@ -20,7 +31,7 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         photoViewModel = ViewModelProvider(requireActivity())[PhotoViewModel::class.java]
-        adapter = DetailAdapter(photoViewModel.photos,this)
+        adapter = DetailAdapter(photoViewModel.photos, this)
     }
 
     override fun getLayoutId(): Int {
@@ -37,15 +48,128 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+
                 if (position != photoViewModel.positionSelect) {
                     photoViewModel.positionSelect = position
                 }
                 photoViewModel.positionFocus.postValue(position)
+
+
+                CoroutineScope(Dispatchers.Main).launch {
+                    setupInfo(photoViewModel.photos[position], position)
+                }
+
             }
+
         })
         binding.viewpager.setCurrentItem(photoViewModel.positionSelect, false)
 
 
+    }
+
+    suspend fun setupInfo(photo: FlickrResult.Photos.Photo, position: Int) {
+        setupPreLoading()
+        bindInfoToView(checkInfoPhoto(photo), position)
+    }
+
+    private fun setupPreLoading() {
+        setTextPreLoad()
+        setBackgroundLoading(true)
+        binding.smBottom.showShimmer(true)
+    }
+
+    private fun setTextPreLoad() {
+        binding.tvDescription.text = ""
+        binding.tvDate.text = ""
+        binding.tvUsername.text = ""
+        binding.tvTitle.text = ""
+    }
+
+    private fun setBackgroundLoading(b: Boolean) {
+
+        if (isAdded) {
+            val colorBackground = if (b) {
+                R.color.white
+            } else {
+                android.R.color.transparent
+            }
+            binding.tvFavorites.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvComment.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvDescription.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvTitle.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvUsername.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvDate.background = ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvViews.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+            binding.tvShare.background =
+                ContextCompat.getDrawable(requireContext(), colorBackground)
+        }
+
+    }
+
+    private suspend fun checkInfoPhoto(photo: FlickrResult.Photos.Photo): FlickrResult.Photos.Photo {
+        if (TextUtils.isEmpty(photo.description) && TextUtils.isEmpty(photo.username) && photo.favorites == 0) {
+            withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+                photo.id?.let {
+                    ConverterAPI.getOptionCallPhotoInfo(
+                        it
+                    )
+                }?.let {
+                    val info = FlickrRetrofit.flickrService.getInfo(it).execute()
+
+                    if (info.isSuccessful && info.code() == 200) {
+                        val infoDetail = info.body()?.photo
+                        photo.username = infoDetail?.owner?.username
+                        photo.date = infoDetail?.dates?.taken
+                        photo.description = infoDetail?.description?.content
+                        photo.views = infoDetail?.views?.replace(Regex("[^0-9]"), "")?.toInt()!!
+                        photo.comments =
+                            infoDetail?.comments?.content?.replace(Regex("[^0-9]"), "")?.toInt()!!
+
+
+                        val favorite = FlickrRetrofit.flickrService.getFavorite(
+                            ConverterAPI.getOptionCallPhotoFavorites(
+                                photo.id!!
+                            )
+                        ).execute()
+
+
+                        if (favorite.isSuccessful && favorite.code() == 200) {
+                            try {
+                                photo.favorites = favorite.body()?.photo?.total!!
+                            } catch (ex: Exception) {
+                                ex.printStackTrace()
+                            }
+                        }
+                        Log.d("hblong", "ImageDetailFragment.checkInfoPhoto: ${photo.views}")
+                    }
+                }
+            }
+        }
+
+        Log.d("hblong", "ImageDetailFragment.checkInfoPhoto: done info")
+        return photo
+    }
+
+
+    private fun bindInfoToView(photo: FlickrResult.Photos.Photo, position: Int) {
+        if (position == binding.viewpager.currentItem) {
+            binding.tvFavorites.text = photo.favorites.toString()
+            binding.tvViews.text = photo.views.toString()
+            binding.tvComment.text = photo.comments.toString()
+            binding.tvDescription.text = Html.fromHtml(photo.description.toString())
+            binding.tvTitle.text = photo.title.toString()
+            binding.tvUsername.text = photo.username.toString()
+            binding.tvDate.text = photo.date.toString()
+
+            setBackgroundLoading(false)
+            binding.smBottom.hideShimmer()
+        }
     }
 
     override fun onStop() {
