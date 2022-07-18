@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.ui.fragment
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
@@ -42,7 +43,13 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.tvDescription.apply {
+            setShowingLine(3)
+            setShowLessTextColor(Color.BLUE)
+            setShowMoreTextColor(Color.BLUE)
+            addShowLessText("Show less")
+            addShowMoreText("Show more")
+        }
         binding.viewpager.adapter = adapter
 
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -79,10 +86,11 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
     }
 
     private fun setTextPreLoad() {
-        binding.tvDescription.text = ""
+        binding.tvDescription.setTextMore("")
         binding.tvDate.text = ""
         binding.tvUsername.text = ""
         binding.tvTitle.text = ""
+
     }
 
     private fun setBackgroundLoading(b: Boolean) {
@@ -162,7 +170,7 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
             binding.tvFavorites.text = photo.favorites.toString()
             binding.tvViews.text = photo.views.toString()
             binding.tvComment.text = photo.comments.toString()
-            binding.tvDescription.text = Html.fromHtml(photo.description.toString())
+            binding.tvDescription.setTextMore(Html.fromHtml(photo.description.toString()))
             binding.tvTitle.text = photo.title.toString()
             binding.tvUsername.text = photo.username.toString()
             binding.tvDate.text = photo.date.toString()
