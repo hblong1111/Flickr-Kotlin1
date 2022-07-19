@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -98,7 +100,6 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
     }
 
     private fun setBackgroundLoading(b: Boolean) {
-
         if (isAdded) {
             val colorBackground = if (b) {
                 R.color.white
@@ -196,13 +197,16 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
 
     }
 
+    override fun onCustomCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) {
+        binding.visibleInfo = true
+    }
+
     override fun onTapPhoto() {
-        val visibleInfo = if (binding.infoGroup.visibility == View.VISIBLE) {
-            View.INVISIBLE
-        } else {
-            View.VISIBLE
-        }
-        binding.infoGroup.visibility = visibleInfo
+        binding.visibleInfo = !binding.visibleInfo!!
     }
 
 }

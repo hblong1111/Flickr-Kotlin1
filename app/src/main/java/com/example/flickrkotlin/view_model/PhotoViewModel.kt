@@ -42,7 +42,7 @@ class PhotoViewModel : ViewModel() {
                 override fun onFailure(call: Call<FlickrResult>, t: Throwable) {
                     isLoadData.postValue(false)
                 }
-
-            })
+            }
+        )
     }
 }

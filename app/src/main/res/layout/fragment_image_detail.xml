@@ -5,6 +5,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="visibleInfo"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -186,6 +191,7 @@
             android:id="@+id/infoGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{visibleInfo?View.VISIBLE:View.INVISIBLE}"
             app:constraint_referenced_ids="imageView2,smBottom"
             tools:ignore="NotSibling" />
 

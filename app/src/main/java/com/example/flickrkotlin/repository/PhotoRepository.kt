@@ -18,7 +18,6 @@ object PhotoRepository {
 
 
     fun getPhotoExplore(totalPhoto: Int, callBack: GetPhotoExploreCallBack) {
-        Log.d("longhb", "PhotoRepository.getPhotoExplore: $totalPhoto")
         FlickrRetrofit.flickrService.getResult(
             ConverterAPI.getOptionCallResult(
                 DateUtils.getDateString(
