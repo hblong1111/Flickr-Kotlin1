@@ -1,6 +1,5 @@
 package com.longhb.base.adapter
 
-import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -97,7 +96,10 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
     private fun setDataShowNew(newData: ArrayList<T>) {
         val diffUtil: DiffUtil.DiffResult =
             DiffUtil.calculateDiff(DiffCallbackBase(dataShow, newData))
-        diffUtil.dispatchUpdatesTo(this)
+
+        recyclerView.post {
+            diffUtil.dispatchUpdatesTo(this)
+        }
 
         dataShow.clear()
         dataShow.addAll(newData)

@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -86,10 +86,14 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
     }
 
     private fun setTextPreLoad() {
-        binding.tvDescription.setTextMore("")
-        binding.tvDate.text = ""
-        binding.tvUsername.text = ""
-        binding.tvTitle.text = ""
+        val txtPreload = binding.tvShare.text
+        binding.tvDescription.setTextMore(txtPreload)
+        binding.tvDate.text = txtPreload
+        binding.tvUsername.text = txtPreload
+        binding.tvTitle.text = txtPreload
+        binding.tvViews.text = txtPreload
+        binding.tvFavorites.text = txtPreload
+        binding.tvComment.text = txtPreload
 
     }
 
@@ -120,53 +124,57 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
 
     }
 
-    private suspend fun checkInfoPhoto(photo: FlickrResult.Photos.Photo): FlickrResult.Photos.Photo {
-        if (TextUtils.isEmpty(photo.description) && TextUtils.isEmpty(photo.username) && photo.favorites == 0) {
-            withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                photo.id?.let {
-                    ConverterAPI.getOptionCallPhotoInfo(
-                        it
-                    )
-                }?.let {
-                    val info = FlickrRetrofit.flickrService.getInfo(it).execute()
+    private suspend fun checkInfoPhoto(photo: FlickrResult.Photos.Photo): FlickrResult.Photos.Photo? {
+        try {
+            if (TextUtils.isEmpty(photo.description) && TextUtils.isEmpty(photo.username) && photo.favorites == 0) {
+                withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+                    photo.id?.let {
+                        ConverterAPI.getOptionCallPhotoInfo(
+                            it
+                        )
+                    }?.let {
+                        val info = FlickrRetrofit.flickrService.getInfo(it).execute()
 
-                    if (info.isSuccessful && info.code() == 200) {
-                        val infoDetail = info.body()?.photo
-                        photo.username = infoDetail?.owner?.username
-                        photo.date = infoDetail?.dates?.taken
-                        photo.description = infoDetail?.description?.content
-                        photo.views = infoDetail?.views?.replace(Regex("[^0-9]"), "")?.toInt()!!
-                        photo.comments =
-                            infoDetail?.comments?.content?.replace(Regex("[^0-9]"), "")?.toInt()!!
-
-
-                        val favorite = FlickrRetrofit.flickrService.getFavorite(
-                            ConverterAPI.getOptionCallPhotoFavorites(
-                                photo.id!!
-                            )
-                        ).execute()
+                        if (info.isSuccessful && info.code() == 200) {
+                            val infoDetail = info.body()?.photo
+                            photo.username = infoDetail?.owner?.username
+                            photo.date = infoDetail?.dates?.taken
+                            photo.description = infoDetail?.description?.content
+                            photo.views = infoDetail?.views?.replace(Regex("[^0-9]"), "")?.toInt()!!
+                            photo.comments =
+                                infoDetail?.comments?.content?.replace(Regex("[^0-9]"), "")
+                                    ?.toInt()!!
 
 
-                        if (favorite.isSuccessful && favorite.code() == 200) {
-                            try {
-                                photo.favorites = favorite.body()?.photo?.total!!
-                            } catch (ex: Exception) {
-                                ex.printStackTrace()
+                            val favorite = FlickrRetrofit.flickrService.getFavorite(
+                                ConverterAPI.getOptionCallPhotoFavorites(
+                                    photo.id!!
+                                )
+                            ).execute()
+
+
+                            if (favorite.isSuccessful && favorite.code() == 200) {
+                                try {
+                                    photo.favorites = favorite.body()?.photo?.total!!
+                                } catch (ex: Exception) {
+                                    ex.printStackTrace()
+                                }
                             }
                         }
-                        Log.d("hblong", "ImageDetailFragment.checkInfoPhoto: ${photo.views}")
                     }
                 }
             }
-        }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
 
-        Log.d("hblong", "ImageDetailFragment.checkInfoPhoto: done info")
+            return null
+        }
         return photo
     }
 
 
-    private fun bindInfoToView(photo: FlickrResult.Photos.Photo, position: Int) {
-        if (position == binding.viewpager.currentItem) {
+    private fun bindInfoToView(photo: FlickrResult.Photos.Photo?, position: Int) {
+        if (photo != null && position == binding.viewpager.currentItem) {
             binding.tvFavorites.text = photo.favorites.toString()
             binding.tvViews.text = photo.views.toString()
             binding.tvComment.text = photo.comments.toString()
@@ -177,6 +185,8 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
 
             setBackgroundLoading(false)
             binding.smBottom.hideShimmer()
+        } else if (photo == null) {
+            Toast.makeText(context, "Check connection!!!", Toast.LENGTH_SHORT).show()
         }
     }
 

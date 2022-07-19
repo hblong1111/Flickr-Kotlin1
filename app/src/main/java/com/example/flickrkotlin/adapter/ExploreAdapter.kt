@@ -87,7 +87,11 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
     }
 
     override fun createLayoutManager(): RecyclerView.LayoutManager {
-        return StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        return object : StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
+            override fun supportsPredictiveItemAnimations(): Boolean {
+                return false
+            }
+        }
     }
 
 
