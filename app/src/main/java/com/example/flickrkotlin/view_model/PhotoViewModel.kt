@@ -45,4 +45,11 @@ class PhotoViewModel : ViewModel() {
             }
         )
     }
+
+    fun getCurrentPhotoShowDetail(): FlickrResult.Photos.Photo? {
+        if (positionSelect >= 0 && positionSelect < photos.size) {
+            return photos[positionSelect]
+        }
+        return null
+    }
 }

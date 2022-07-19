@@ -18,6 +18,8 @@ import com.example.api.model.FlickrResult
 import com.example.flickrkotlin.R
 import com.example.flickrkotlin.adapter.DetailAdapter
 import com.example.flickrkotlin.databinding.FragmentImageDetailBinding
+import com.example.flickrkotlin.helper.ImageDownloadHelper
+import com.example.flickrkotlin.helper.PermissionHelper
 import com.example.flickrkotlin.view_model.PhotoViewModel
 import com.longhb.base.FragmentBase
 import kotlinx.coroutines.CoroutineScope
@@ -203,6 +205,63 @@ class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAd
         savedInstanceState: Bundle?
     ) {
         binding.visibleInfo = true
+
+
+        binding.btnDownload.setOnClickListener {
+            if (PermissionHelper.checkGrandWriteExternalStoragePermission(requireContext())) {
+                saveCurrentImage()
+            } else {
+                PermissionHelper.requestWriteExternalStorage(this)
+            }
+        }
+
+
+    }
+
+    private fun saveCurrentImage() {
+        Toast.makeText(requireContext(), "Downloading...", Toast.LENGTH_SHORT).show()
+
+        CoroutineScope(Dispatchers.Main).launch {
+
+            var pathSave: String
+
+            withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+                val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
+                pathSave = ImageDownloadHelper.saveImageIntoDevice(
+                    requireContext(),
+                    photoCurrent?.getUrlHD()!!
+                )
+            }
+
+
+            Toast.makeText(
+                requireActivity(),
+                "Image save to: $pathSave",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == PermissionHelper.WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (PermissionHelper.checkGrandWriteExternalStoragePermission(requireContext())) {
+                saveCurrentImage()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "This function needs permission!!!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     override fun onTapPhoto() {

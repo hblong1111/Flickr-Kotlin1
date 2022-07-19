@@ -31,11 +31,10 @@
         </androidx.viewpager2.widget.ViewPager2>
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/btnDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_download" />
@@ -192,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{visibleInfo?View.VISIBLE:View.INVISIBLE}"
-            app:constraint_referenced_ids="imageView2,smBottom"
+            app:constraint_referenced_ids="btnDownload,smBottom"
             tools:ignore="NotSibling" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
