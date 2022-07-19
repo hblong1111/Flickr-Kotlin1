@@ -9,6 +9,7 @@
         <entry key="..\:/Users/LongHB/Desktop/Android Project/Flickr-Kotlin1/app/src/main/res/layout/item_explore.xml" value="0.358695652173913" />
         <entry key="..\:/Users/LongHB/Desktop/Android Project/Flickr-Kotlin1/app/src/main/res/menu/menu_nav_main.xml" value="0.365625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14739583333333334" />
+        <entry key="app/src/main/res/layout/dialog_test.xml" value="0.14114583333333333" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.32472826086956524" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.21739130434782608" />
         <entry key="app/src/main/res/layout/fragment_image_detail.xml" value="0.48833592534992226" />
@@ -28,7 +29,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.14739583333333334" />
+        <option name="scale" value="0.14114583333333333" />
       </ProjectState>
     </option>
   </component>

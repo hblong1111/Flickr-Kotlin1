@@ -20,7 +20,7 @@ object PermissionHelper {
 
 
     fun checkGrandWriteExternalStoragePermission(context: Context): Boolean {
-        return checkGrandPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        return checkGrandPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     private fun requestPermission(

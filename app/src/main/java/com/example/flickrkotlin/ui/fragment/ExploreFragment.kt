@@ -40,10 +40,14 @@ class ExploreFragment : FragmentBase<FragmentExploreBinding>(),
 
     override fun onClickItem(view: View, position: Int) {
         photoViewModel.positionSelect = position
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.add(R.id.containerFRMain, ImageDetailFragment())
-            ?.addToBackStack(null)
-            ?.commit()
+//        activity?.supportFragmentManager?.beginTransaction()
+//            ?.add(R.id.containerFRMain, ImageDetailFragment())
+//            ?.addToBackStack(null)
+//            ?.commit()
+
+        navigation(R.id.action_mainFragment_to_imageDetailFragment)
+
+
     }
 
     override fun onCustomCreateView(

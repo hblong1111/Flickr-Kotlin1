@@ -13,9 +13,10 @@
             android:id="@+id/action_mainFragment_to_imageDetailFragment"
             app:destination="@id/imageDetailFragment" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/imageDetailFragment"
-        android:name="com.example.flickrkotlin.ui.fragment.ImageDetailFragment"
-        android:label="fragment_image_detail"
-        tools:layout="@layout/fragment_image_detail" />
+        android:name="com.example.flickrkotlin.ui.fragment.TestFragment"
+        android:label="test_fragment"
+        tools:layout="@layout/dialog_test" />
+
 </navigation>
