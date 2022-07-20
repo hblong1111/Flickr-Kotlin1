@@ -21,13 +21,13 @@ import com.example.flickrkotlin.databinding.FragmentImageDetailBinding
 import com.example.flickrkotlin.helper.ImageDownloadHelper
 import com.example.flickrkotlin.helper.PermissionHelper
 import com.example.flickrkotlin.view_model.PhotoViewModel
-import com.longhb.base.FragmentBase
+import com.longhb.base.DialogFragmentBase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ImageDetailFragment : FragmentBase<FragmentImageDetailBinding>(), DetailAdapter.Callback {
+class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(), DetailAdapter.Callback {
 
     private lateinit var photoViewModel: PhotoViewModel
 

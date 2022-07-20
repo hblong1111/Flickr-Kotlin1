@@ -11,12 +11,14 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_imageDetailFragment"
-            app:destination="@id/imageDetailFragment" />
+            app:destination="@id/imageDetailFragment"
+            app:enterAnim="@anim/anim_bottom_to_top"
+            app:exitAnim="@anim/anim_bottom_to_top" />
     </fragment>
     <dialog
         android:id="@+id/imageDetailFragment"
-        android:name="com.example.flickrkotlin.ui.fragment.TestFragment"
-        android:label="test_fragment"
-        tools:layout="@layout/dialog_test" />
+        android:name="com.example.flickrkotlin.ui.fragment.ImageDetailFragment"
+        android:label="image_detail_fragment"
+        tools:layout="@layout/fragment_image_detail" />
 
 </navigation>
