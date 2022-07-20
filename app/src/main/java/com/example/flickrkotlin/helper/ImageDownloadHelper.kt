@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.helper
 
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import com.example.flickrkotlin.R
 import java.io.File
@@ -36,4 +37,13 @@ object ImageDownloadHelper {
 
         return ""
     }
+
+    fun shareImageUrl(context: Context, urlPath: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.app_name))
+        intent.putExtra(Intent.EXTRA_TEXT, urlPath)
+        context.startActivity(intent)
+    }
+
 }

@@ -15,6 +15,17 @@ abstract class DialogFragmentBase<B : ViewDataBinding> : DialogFragment() {
     open lateinit var navigationViewModel: NavigationViewModel
 
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (setAnimationCustom() != 0) {
+            dialog?.window?.attributes?.windowAnimations = setAnimationCustom()
+        }
+    }
+
+    open fun setAnimationCustom(): Int {
+        return 0
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

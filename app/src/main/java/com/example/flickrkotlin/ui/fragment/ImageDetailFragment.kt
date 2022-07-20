@@ -27,7 +27,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(), DetailAdapter.Callback {
+class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
+    DetailAdapter.Callback {
 
     private lateinit var photoViewModel: PhotoViewModel
 
@@ -213,6 +214,11 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(), De
             } else {
                 PermissionHelper.requestWriteExternalStorage(this)
             }
+        }
+
+        binding.tvShare.setOnClickListener {
+            val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
+            ImageDownloadHelper.shareImageUrl(requireContext(), photoCurrent?.getUrlHD()!!)
         }
 
 
