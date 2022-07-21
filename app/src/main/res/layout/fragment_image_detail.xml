@@ -37,7 +37,8 @@
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_download" />
+            app:srcCompat="@drawable/ic_download"
+            android:contentDescription="@string/download_image" />
 
         <View
             android:id="@+id/viewClick"
@@ -65,65 +66,62 @@
                     android:id="@+id/tvFavorites"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_favorite"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="1000"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvComment"
                     app:layout_constraintEnd_toStartOf="@+id/tvComment"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tvComment" />
+                    app:layout_constraintTop_toTopOf="@+id/tvComment"
+                    app:drawableStartCompat="@drawable/ic_favorite" />
 
                 <TextView
                     android:id="@+id/tvComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_comment"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="1500"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvViews"
                     app:layout_constraintEnd_toStartOf="@+id/tvViews"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/tvFavorites"
-                    app:layout_constraintTop_toTopOf="@+id/tvViews" />
+                    app:layout_constraintTop_toTopOf="@+id/tvViews"
+                    app:drawableStartCompat="@drawable/ic_comment" />
 
                 <TextView
                     android:id="@+id/tvViews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_eye"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="1532"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/tvShare"
                     app:layout_constraintEnd_toStartOf="@+id/tvShare"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/tvComment"
-                    app:layout_constraintTop_toTopOf="@+id/tvShare" />
+                    app:layout_constraintTop_toTopOf="@+id/tvShare"
+                    app:drawableStartCompat="@drawable/ic_eye" />
 
                 <TextView
                     android:id="@+id/tvShare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:drawableStart="@drawable/ic_share"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="Share"
+                    android:text="@string/share"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/tvViews" />
+                    app:layout_constraintStart_toEndOf="@+id/tvViews"
+                    app:drawableStartCompat="@drawable/ic_share" />
 
                 <View
                     android:id="@+id/view2"
@@ -140,7 +138,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="12 THG 4 LÚC 2:16"
                     android:textColor="@color/white50"
                     app:layout_constraintBottom_toTopOf="@id/view2"
                     app:layout_constraintEnd_toEndOf="@+id/view2"
@@ -151,7 +148,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Description......"
                     android:textColor="@color/white50"
                     app:layout_constraintBottom_toTopOf="@+id/tvDate"
                     app:layout_constraintEnd_toEndOf="@+id/tvDate"
@@ -162,7 +158,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Description......"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tvDescription"
@@ -174,7 +169,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Hoàng Bá Long"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold|italic"
