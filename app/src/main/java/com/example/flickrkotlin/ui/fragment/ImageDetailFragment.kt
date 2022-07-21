@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.api.ConverterAPI
 import com.example.api.FlickrRetrofit
 import com.example.api.model.FlickrResult
@@ -58,6 +59,7 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
         binding.viewpager.adapter = adapter
 
         binding.viewpager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            @SuppressLint("CheckResult")
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
 
@@ -66,8 +68,16 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
                 }
                 photoViewModel.positionFocus.postValue(position)
 
-
+                val photoCur = photoViewModel.getCurrentPhotoShowDetail()
+                Glide.with(requireContext()).load(
+                    ConverterAPI.getUrlImageOwner(
+                        photoCur?.iconfarm!!,
+                        photoCur.iconserver!!.toInt(),
+                        photoCur.owner!!
+                    )
+                ).into(binding.imvAvt)
                 CoroutineScope(Dispatchers.Main).launch {
+
                     setupInfo(photoViewModel.photos[position], position)
                 }
 
