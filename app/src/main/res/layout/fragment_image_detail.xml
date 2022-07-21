@@ -34,12 +34,15 @@
             android:id="@+id/btnDownload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/download_image"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_download" />
 
+        <View
+            android:id="@+id/viewClick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/smBottom"
@@ -47,6 +50,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,11 +65,12 @@
                     android:id="@+id/tvFavorites"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_favorite"
                     android:drawablePadding="8dp"
                     android:gravity="center"
+                    android:text="1000"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_favorite"
                     app:layout_constraintBottom_toBottomOf="@+id/tvComment"
                     app:layout_constraintEnd_toStartOf="@+id/tvComment"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -75,11 +81,12 @@
                     android:id="@+id/tvComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_comment"
                     android:drawablePadding="8dp"
                     android:gravity="center"
+                    android:text="1500"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_comment"
                     app:layout_constraintBottom_toBottomOf="@+id/tvViews"
                     app:layout_constraintEnd_toStartOf="@+id/tvViews"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -90,11 +97,12 @@
                     android:id="@+id/tvViews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_eye"
                     android:drawablePadding="8dp"
                     android:gravity="center"
+                    android:text="1532"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_eye"
                     app:layout_constraintBottom_toBottomOf="@+id/tvShare"
                     app:layout_constraintEnd_toStartOf="@+id/tvShare"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -106,12 +114,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/ic_share"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="@string/share"
+                    android:text="Share"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    app:drawableStartCompat="@drawable/ic_share"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -132,6 +140,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:text="12 THG 4 LÚC 2:16"
                     android:textColor="@color/white50"
                     app:layout_constraintBottom_toTopOf="@id/view2"
                     app:layout_constraintEnd_toEndOf="@+id/view2"
@@ -142,6 +151,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:text="Description......"
                     android:textColor="@color/white50"
                     app:layout_constraintBottom_toTopOf="@+id/tvDate"
                     app:layout_constraintEnd_toEndOf="@+id/tvDate"
@@ -152,6 +162,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:text="Description......"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tvDescription"
@@ -161,26 +172,15 @@
                 <TextView
                     android:id="@+id/tvUsername"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Hoàng Bá Long"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold|italic"
-                    app:layout_constraintBottom_toBottomOf="@+id/imvAvt"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imvAvt"
-                    app:layout_constraintTop_toTopOf="@+id/imvAvt" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imvAvt"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/tvTitle"
-                    app:layout_constraintStart_toStartOf="@+id/tvTitle"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    app:layout_constraintEnd_toEndOf="@+id/tvDescription"
+                    app:layout_constraintStart_toStartOf="@+id/tvDescription" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
