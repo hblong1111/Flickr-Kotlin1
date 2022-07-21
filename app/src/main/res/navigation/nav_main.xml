@@ -17,6 +17,15 @@
         android:id="@+id/imageDetailFragment"
         android:name="com.example.flickrkotlin.ui.fragment.ImageDetailFragment"
         android:label="image_detail_fragment"
-        tools:layout="@layout/fragment_image_detail" />
+        tools:layout="@layout/fragment_image_detail" >
+        <action
+            android:id="@+id/action_imageDetailFragment_to_commentDialogFragment"
+            app:destination="@id/commentDialogFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/commentDialogFragment"
+        android:name="com.example.flickrkotlin.ui.fragment.CommentDialogFragment"
+        android:label="fragment_comment_dialog"
+        tools:layout="@layout/fragment_comment_dialog" />
 
 </navigation>

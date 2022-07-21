@@ -46,6 +46,7 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation project(path: ':base')
     implementation project(path: ':api')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'junit:junit:4.12'
     testImplementation 'junit:junit:4.12'

@@ -1,6 +1,8 @@
 package com.longhb.base.adapter
 
+import android.content.Context
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
@@ -27,7 +29,7 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
         firstScroll = true
 
-        layoutManager = createLayoutManager()
+        layoutManager = createLayoutManager(recyclerView.context)
 
         recyclerView.layoutManager = layoutManager
 
@@ -55,11 +57,15 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == 0) {
-                    val lastCompleteVisiblePositions =
-                        (layoutManager as StaggeredGridLayoutManager).findLastCompletelyVisibleItemPositions(
+                    positionLastVisible = when (layoutManager) {
+                        is StaggeredGridLayoutManager -> (layoutManager as StaggeredGridLayoutManager).findLastCompletelyVisibleItemPositions(
                             null
-                        )
-                    positionLastVisible = lastCompleteVisiblePositions.maxOrNull()!!
+                        ).maxOrNull()!!
+                        is LinearLayoutManager -> (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+                        else -> {
+                            0
+                        }
+                    }
 
                 }
             }
@@ -106,7 +112,7 @@ abstract class AdapterRecyclerViewBase<T : Any, VH : RecyclerView.ViewHolder> :
 
     }
 
-    abstract fun createLayoutManager(): RecyclerView.LayoutManager
+    abstract fun createLayoutManager(context: Context): RecyclerView.LayoutManager
 
 
     abstract fun loadComplete()

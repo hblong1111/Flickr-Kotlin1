@@ -1,6 +1,7 @@
 package com.example.flickrkotlin.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -86,8 +87,8 @@ class ExploreAdapter(var callback: ExploreAdapterCallback) :
         fun onClickItem(view: View, position: Int)
     }
 
-    override fun createLayoutManager(): RecyclerView.LayoutManager {
-        return object : StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
+    override fun createLayoutManager(context: Context): RecyclerView.LayoutManager {
+        return object : StaggeredGridLayoutManager(2, VERTICAL) {
             override fun supportsPredictiveItemAnimations(): Boolean {
                 return false
             }

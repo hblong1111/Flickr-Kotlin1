@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
-    DetailAdapter.Callback {
+    DetailAdapter.Callback, View.OnClickListener {
 
     private lateinit var photoViewModel: PhotoViewModel
 
@@ -218,34 +218,20 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
         binding.visibleInfo = true
 
 
-        binding.btnDownload.setOnClickListener {
-            if (PermissionHelper.checkGrandWriteExternalStoragePermission(requireContext())) {
-                saveCurrentImage()
-            } else {
-                PermissionHelper.requestWriteExternalStorage(this)
-            }
-        }
-
-        binding.tvShare.setOnClickListener {
-            val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
-            ImageDownloadHelper.shareImageUrl(requireContext(), photoCurrent?.getUrlHD()!!)
-        }
-
-
+        binding.btnDownload.setOnClickListener(this)
+        binding.tvShare.setOnClickListener(this)
+        binding.tvComment.setOnClickListener(this)
     }
 
-    private fun saveCurrentImage() {
+    private fun saveCurrentImage(photoCurrent: FlickrResult.Photos.Photo) {
         Toast.makeText(requireContext(), "Downloading...", Toast.LENGTH_SHORT).show()
 
         CoroutineScope(Dispatchers.Main).launch {
-
             var pathSave: String
-
             withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
                 pathSave = ImageDownloadHelper.saveImageIntoDevice(
                     requireContext(),
-                    photoCurrent?.getUrlHD()!!
+                    photoCurrent.getUrlHD()!!
                 )
             }
 
@@ -254,9 +240,7 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
                 requireActivity(),
                 "Image save to: $pathSave",
                 Toast.LENGTH_SHORT
-            )
-                .show()
-
+            ).show()
         }
     }
 
@@ -269,7 +253,10 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
 
         if (requestCode == PermissionHelper.WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (PermissionHelper.checkGrandWriteExternalStoragePermission(requireContext())) {
-                saveCurrentImage()
+                val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
+                if (photoCurrent != null) {
+                    saveCurrentImage(photoCurrent)
+                }
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -284,4 +271,33 @@ class ImageDetailFragment : DialogFragmentBase<FragmentImageDetailBinding>(),
         binding.visibleInfo = !binding.visibleInfo!!
     }
 
+    override fun onClick(p0: View?) {
+        val photoCurrent = photoViewModel.getCurrentPhotoShowDetail()
+        when (p0?.id) {
+            R.id.tvShare -> ImageDownloadHelper.shareImageUrl(
+                requireContext(),
+                photoCurrent?.getUrlHD()!!
+            )
+            R.id.btnDownload -> downloadImage(photoCurrent)
+            R.id.tvComment -> navigation(R.id.action_imageDetailFragment_to_commentDialogFragment)
+        }
+    }
+
+    private fun downloadImage(photoCurrent: FlickrResult.Photos.Photo?) {
+        if (PermissionHelper.checkGrandWriteExternalStoragePermission(
+                requireContext()
+            )
+        ) {
+            if (photoCurrent != null) {
+                saveCurrentImage(photoCurrent)
+            }
+        } else {
+            PermissionHelper.requestWriteExternalStorage(this)
+        }
+    }
+
+
+    override fun setAnimationCustom(): Int {
+        return R.style.WindowAnimationSlideVertical
+    }
 }
