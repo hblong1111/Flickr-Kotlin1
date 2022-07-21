@@ -14,7 +14,19 @@ class CommentsAdapter :
     AdapterRecyclerViewBase<CommentsPhotoResult.Comments.Comment, CommentsAdapter.ViewHolder>() {
 
     override fun createLayoutManager(context: Context): RecyclerView.LayoutManager {
-        return LinearLayoutManager(context)
+        return object : LinearLayoutManager(context) {
+            override fun onLayoutChildren(
+                recycler: RecyclerView.Recycler?,
+                state: RecyclerView.State?
+            ) {
+                try {
+                    super.onLayoutChildren(recycler, state)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+            }
+        }
     }
 
     override fun loadComplete() {
@@ -42,6 +54,10 @@ class CommentsAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindData(dataShow[position])
+        Log.d(
+            "longhb",
+            "CommentsAdapter.onBindViewHolder: ${dataShow.get(position).authorIsDeleted}"
+        )
     }
 
 

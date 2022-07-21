@@ -15,7 +15,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imvAvt"
@@ -25,7 +26,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.2"
+            app:layout_constraintWidth_percent="0.1"
             app:loadUrl="@{comment.urlAvt}" />
 
         <TextView
@@ -34,15 +35,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@{comment.username}"
+            android:textColor="@color/black"
+            android:textStyle="bold|italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imvAvt"
             app:layout_constraintTop_toTopOf="@+id/imvAvt" />
 
         <TextView
             android:id="@+id/tvComment"
+            android:textSize="12sp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@{Html.fromHtml(comment.content)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tvUsername"
