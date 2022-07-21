@@ -22,6 +22,17 @@ class FlickrResult {
             @Expose
             var id: String? = null
 
+            @SerializedName("owner")
+            @Expose
+            var owner: String? = null
+
+            @SerializedName("iconfarm")
+            @Expose
+            var iconfarm: Int? = null
+
+            @SerializedName("iconserver")
+            @Expose
+            var iconserver: String? = null
 
             @SerializedName("title")
             @Expose
