@@ -3,7 +3,9 @@ package com.example.flickrkotlin.adapter
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.model.CommentsPhotoResult
@@ -47,10 +49,30 @@ class CommentsAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindData(dataShow[position])
-        Log.d(
-            "longhb",
-            "CommentsAdapter.onBindViewHolder: ${dataShow.get(position).authorIsDeleted}"
-        )
+
+        calculatePaddingItem(holder.itemView, position)
+    }
+
+    private fun calculatePaddingItem(itemView: View, position: Int) {
+        val base = 20
+        val top: Int
+        val bottom: Int
+
+        when (position) {
+            0 -> {
+                top = 2 * base
+                bottom = base / 2
+            }
+            data.size - 1 -> {
+                top = base / 2
+                bottom = 2 * base
+            }
+            else -> {
+                top = base / 2
+                bottom = base / 2
+            }
+        }
+        itemView.updatePadding(base, top, base, bottom)
     }
 
 
