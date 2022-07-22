@@ -67,7 +67,12 @@ class CommentDialogFragment : DialogFragmentBase<FragmentCommentDialogBinding>()
             ) {
                 if (response.isSuccessful) {
                     if (response.body()?.comments?.comment?.size != 0) {
-                        adapter.setDataNew(ArrayList(response.body()?.comments?.comment))
+                        val commentList = ArrayList(response.body()?.comments?.comment)
+                        Log.d("hblong", "CommentDialogFragment.onResponse: ${commentList.size}")
+                        commentList.sortWith { p0, p1 -> (p1?.datecreate?.toLong()!! - p0?.datecreate?.toLong()!!).toInt() }
+                        commentList.removeAll { comment -> comment.authorIsDeleted == 1 }
+                        Log.d("hblong", "CommentDialogFragment.onResponse: ${commentList.size}")
+                        adapter.setDataNew(commentList)
                     }
                 }
             }
